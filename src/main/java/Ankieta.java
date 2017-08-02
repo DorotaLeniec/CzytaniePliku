@@ -31,7 +31,7 @@ public class Ankieta {
         System.out.println("Podaj płeć");
         String sex = sc.nextLine();
 
-        File file = new File(name + "-ankieta.txt");
+        File file = new File("ankieta.txt");
         try(FileOutputStream fos = new FileOutputStream(file,true);
             PrintWriter writer = new PrintWriter(fos)) {
             String quit = "";
@@ -42,11 +42,13 @@ public class Ankieta {
                     writer.println("Wiek :" + age);
                     writer.println("Płeć :" + sex);
                     System.out.println("Jakie masz hobby?");
-                    writer.println(sc.nextLine());
+                    writer.println("Hobby : " + sc.nextLine());
                     System.out.println("Kot czy pies?");
-                    writer.println(sc.nextLine());
+                    writer.println("Zwierze : " + sc.nextLine());
                     System.out.println("Twój komentarz");
-                    writer.println(sc.nextLine());
+                    writer.println("Komentarz : " + sc.nextLine());
+                    writer.println();
+                    writer.println();
                     System.out.println("Czy chcesz wypełnić kolejna ankiete? ");
                     if(sc.nextLine().equals("nie")){
                         quit = "q";

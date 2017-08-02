@@ -13,8 +13,6 @@ import java.util.Scanner;
 public class FileCheck {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        File file2 = new File("katalog");
-        boolean mkdir = file2.mkdir();
         FileCheck fc = new FileCheck();
         System.out.println("Podaj nazwe pliku");
         String fileName = sc.nextLine();
@@ -24,23 +22,56 @@ public class FileCheck {
 
         if(file.isFile()) {
             fc.printFileInfo(file);
-            System.out.println("Czy plik istnieje? : " + file.exists());
-            System.out.println("Rozmiar pliku : " + file.length());
-            System.out.println("Scieżka absolutna : " + file.getAbsolutePath());
-            System.out.println("Sciezka relatywna : " + file.getPath());
-            System.out.println("Data ostatniej modyfikacji : " + file.lastModified());
-            System.out.println("Czy plik jest ukryty? : " + file.isHidden());
-            System.out.println("Prawo dosepu do pisania : " + file.canWrite());
-            System.out.println("Prawo dosepu do wykonywania : " + file.canExecute());
-            System.out.println("Prawo dosepu do czytania : " + file.canRead());
         } else if(file.isDirectory()){
-            System.out.println("jest katalogiem");
+            System.out.println(file.getName() + " jest katalogiem, zawiera " + file.listFiles().length+" plików.");
+            for (File singleFile : file.listFiles()) {
+                fc.printFileInfo(singleFile);
+            }
+
+
+
         }
+
+
+
+        fc.printCommands();
+        String commandLine = sc.nextLine();
+        String[] comandWords = commandLine.split(" ");
+        String command = comandWords[0];
+        String name = comandWords[1];
+            if(command.equals("delete")){
+                File fileToDelete = new File(name);
+                fileToDelete.delete();
+            } else if(command.equals("create_file")){
+                File newFile = new File(name);
+                try{
+                    newFile.createNewFile();
+                } catch ( IOException ioe){
+                    System.out.println("Nie udało sie stworzyc pliku");
+                }
+            } else if(command.equals("create_folder")){
+                File newDirectory = new File(name);
+                newDirectory.mkdir();
+
+            } else {
+                fc.printCommands();
+                commandLine = sc.nextLine();
+            }
+
+
 
 
     }
     public void printFileInfo(File file){
         SimpleDateFormat dt = new SimpleDateFormat("yyyyy-mm-dd hh:mm:ss");
         System.out.println(file.length() + " " + file.lastModified() + " " + file.getName());
+    }
+
+    public void printCommands(){
+        System.out.println("Komendy: ");
+        System.out.println("        - delete <ścieżka>");
+        System.out.println("        - create_folder <ścieżka>");
+        System.out.println("        - create_file <ścieżka>");
+        System.out.println("        - quit");
     }
 }
