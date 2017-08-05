@@ -8,29 +8,38 @@ import java.util.Scanner;
  */
 public class ZapisDoPliku {
     public static void main(String[] args) {
-        File sharedFile = new File("shared.txt");
         Scanner sc = new Scanner(System.in);
+        ZapisDoPliku zapis = new ZapisDoPliku();
+        String line = "";
 
-        try (PrintWriter writer = new PrintWriter(new FileOutputStream(sharedFile))) {
-            System.out.println("Otworzono plik sharedFile.txt.");
+        while (!line.equals("q")) {
+            String fileName = "shared";
+            PrintWriter writer = zapis.getFileOutputStream(fileName);
+            System.out.println("Otworzono plik "+fileName+".");
             System.out.println("Rozpocznij pisanie albo nacisnij 'q' aby wyjsc");
-            String line = sc.nextLine();
             while (!line.equals("q")) {
                 if (line.equals("SET_FILE")) {
-                    System.out.println("Podaj nazwe pliku:");
-                    String fileName = sc.next();
-//                    sharedFile = new File(fileName);
-//                    writer.close();
-//                    writer = new PrintWriter(new FileOutputStream(sharedFile));
-                    line = "";
+                    System.out.println("Podaj nazwe pliku.");
+                    fileName = sc.nextLine();
+                    break;
                 } else {
                     writer.println(line);
                     writer.flush();
                     line = sc.nextLine();
                 }
             }
+
+        }
+    }
+
+    public PrintWriter getFileOutputStream(String fileName) {
+        File file = new File(fileName+".txt.");
+        try {
+            PrintWriter writer = new PrintWriter(new FileOutputStream(file));
+            return writer;
         } catch (FileNotFoundException fnfe) {
             System.out.println("File Not Found.");
         }
+        return null;
     }
 }

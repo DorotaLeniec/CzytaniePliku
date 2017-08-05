@@ -27,6 +27,7 @@ public class OdczytZPliku {
 
                         }
                     }
+
                 }
 
             } catch (FileNotFoundException fnfe) {
